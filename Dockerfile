@@ -67,3 +67,4 @@ CMD ["apache2-foreground"]
 
 #forzar a migrar la base de datos 
 RUN php artisan migrate --force
+

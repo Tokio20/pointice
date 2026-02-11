@@ -66,6 +66,4 @@ RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf \
 CMD ["apache2-foreground"]
 
 #forzar a migrar la base de datos 
-
 RUN php artisan migrate --force
-

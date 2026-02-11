@@ -3,6 +3,7 @@ FROM php:8.2-apache
 
 # Variables de entorno
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV PORT=10000
 
 # Actualizar y dependencias del sistema
 RUN apt-get update && apt-get install -y \
@@ -53,18 +54,15 @@ RUN npm install && npm run build
 # Permisos para Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Puerto que usa Render
-EXPOSE 10000
-ENV PORT=10000
-
 # Cambiar Apache a puerto 10000
 RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf \
     /etc/apache2/sites-enabled/000-default.conf
 
-# Comando de inicio
-
-CMD ["apache2-foreground"]
-
-#forzar a migrar la base de datos 
+# Migrar la base de datos
 RUN php artisan migrate --force
 
+# Puerto que usa Render
+EXPOSE 10000
+
+# Comando de inicio
+CMD ["apache2-foreground"]
